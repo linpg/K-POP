@@ -1,4 +1,3 @@
-利8-客服5＃, [2025/11/22 下午 02:55]
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -131,9 +130,7 @@
             margin-bottom: 5px;
             display: block;
         }
-
-利8-客服5＃, [2025/11/22 下午 02:55]
-.next-btn, .restart-btn {
+        .next-btn, .restart-btn {
             background: var(--secondary-color);
             color: white;
             border: none;
@@ -218,8 +215,6 @@
             <button class="restart-btn" onclick="restartQuiz()">再玩一次 🔄</button>
         </div>
     </div>
-
-利8-客服5＃, [2025/11/22 下午 02:55]
 <script>
         // 20 題 K-pop 女團題庫
         const quizData = [
@@ -304,10 +299,7 @@
             {
                 question: "她經歷了 HKT48、IZ*ONE 到 LE SSERAFIM 三次出道。是知名的遊戲宅女，擁有標誌性的大眼睛。",
                 options: ["Kazuha", "Eunchae", "Sakura", "Yunjin"],
-                correct: 2,
-
-利8-客服5＃, [2025/11/22 下午 02:55]
-explanation: "✅ Sakura (宮脇咲良) 出道經歷豐富，且私下是非常熱愛電玩的「櫻花」及「小庫拉」。"
+                correct: 2,explanation: "✅ Sakura (宮脇咲良) 出道經歷豐富，且私下是非常熱愛電玩的「櫻花」及「小庫拉」。"
             },
             {
                 question: "少女時代的隊長與主唱，擁有「信聽太」的美譽，是 K-pop 最具代表性的 Solo 女歌手之一。",
@@ -393,9 +385,7 @@ explanation: "✅ Sakura (宮脇咲良) 出道經歷豐富，且私下是非常�
             const allBtns = document.querySelectorAll('.option-btn');
             
             allBtns.forEach(btn => btn.disabled = true);
-
-利8-客服5＃, [2025/11/22 下午 02:55]
-if (selectedIndex === currentData.correct) {
+            if (selectedIndex === currentData.correct) {
                 score++;
                 selectedBtn.classList.add('correct');
                 feedbackTitle.innerHTML = '<span style="color:green">🎉 答對了！</span>';
@@ -445,3 +435,5 @@ if (selectedIndex === currentData.correct) {
     </script>
 </body>
 </html>
+            
+                
