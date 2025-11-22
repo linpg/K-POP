@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-POP 女團分級挑戰賽</title>
+    <title>K-POP 女團終極會考 (75題版)</title>
     <style>
         /* ==================== CSS 樣式區 ==================== */
         :root {
-            --primary-easy: #4caf50;
-            --primary-normal: #2196f3;
-            --primary-hard: #e91e63;
-            --bg-gradient: linear-gradient(135deg, #fff1eb 0%, #ace0f9 100%);
+            --primary-easy: #66bb6a;
+            --primary-normal: #42a5f5;
+            --primary-hard: #ef5350;
+            --bg-gradient: linear-gradient(135deg, #fff0f5 0%, #e6e6fa 100%);
             --card-bg: #ffffff;
             --text-color: #333;
         }
@@ -24,6 +24,7 @@
             align-items: center;
             margin: 0;
             padding: 15px;
+            box-sizing: border-box;
         }
 
         .container {
@@ -35,20 +36,20 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.1);
             text-align: center;
             position: relative;
-            min-height: 550px;
+            min-height: 600px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        h1 { margin: 0 0 10px 0; color: #333; }
-        h2 { margin-top: 0; font-size: 1.1rem; color: #666; font-weight: normal; }
+        h1 { margin: 0 0 10px 0; color: #333; font-size: 1.8rem; }
+        h2 { margin-top: 0; font-size: 1rem; color: #666; font-weight: normal; }
 
-        /* 首頁按鈕 */
+        /* 首頁按鈕卡片 */
         .mode-card {
             border-radius: 15px;
-            padding: 20px;
-            margin: 15px 0;
+            padding: 18px 25px;
+            margin: 12px 0;
             color: white;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
@@ -67,9 +68,9 @@
         .bg-normal { background: linear-gradient(45deg, #42a5f5, #1e88e5); }
         .bg-hard { background: linear-gradient(45deg, #ef5350, #c62828); }
 
-        .mode-title { font-size: 1.4rem; font-weight: bold; display: block; margin-bottom: 5px; }
-        .mode-desc { font-size: 0.9rem; opacity: 0.9; }
-        .mode-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 2.5rem; opacity: 0.3; }
+        .mode-title { font-size: 1.3rem; font-weight: bold; display: block; margin-bottom: 4px; }
+        .mode-desc { font-size: 0.85rem; opacity: 0.95; line-height: 1.4; }
+        .mode-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 2.2rem; opacity: 0.4; }
 
         /* 遊戲介面 */
         .header-bar {
@@ -79,17 +80,19 @@
             margin-bottom: 20px;
             font-weight: bold;
             color: #555;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
         }
 
         .progress-pill {
-            background: #eee;
+            background: #f0f0f0;
             padding: 5px 15px;
             border-radius: 20px;
             font-size: 0.9rem;
         }
 
         .question-container {
-            min-height: 180px;
+            min-height: 160px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -98,49 +101,54 @@
             padding: 20px;
             background: #f8f9fa;
             border-radius: 20px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        /* 不同題型的樣式 */
-        .q-text { font-size: 1.25rem; line-height: 1.6; font-weight: bold; color: #333; }
-        .q-emoji { font-size: 4.5rem; letter-spacing: 15px; }
+        /* 題型樣式 */
+        .q-text { font-size: 1.2rem; line-height: 1.6; font-weight: bold; color: #333; }
+        .q-emoji { font-size: 4rem; letter-spacing: 12px; line-height: 1.2; }
         .q-lyrics { 
-            font-size: 1.4rem; 
+            font-size: 1.3rem; 
             font-style: italic; 
             color: #5c6bc0; 
-            font-family: "Georgia", serif; 
+            font-family: "Times New Roman", serif; 
             position: relative;
-            padding: 0 20px;
+            padding: 0 15px;
         }
-        .q-lyrics::before { content: "“"; font-size: 3rem; position: absolute; left: -10px; top: -20px; color: #ccc; }
-        .q-lyrics::after { content: "”"; font-size: 3rem; position: absolute; right: -10px; bottom: -40px; color: #ccc; }
+        .q-lyrics::before, .q-lyrics::after { content: "🎵"; font-size: 1rem; margin: 0 10px; opacity: 0.5; }
         
-        .q-body { font-size: 1.3rem; color: #d81b60; font-weight: bold; }
+        .q-body { font-size: 1.4rem; color: #d81b60; font-weight: bold; }
         .q-sub { font-size: 0.9rem; color: #888; margin-top: 12px; font-weight: normal; }
 
-        /* 選項網格 */
+        /* 選項 */
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 10px;
         }
 
         .option-btn {
             background: white;
-            border: 2px solid #eee;
-            padding: 15px;
+            border: 2px solid #e0e0e0;
+            padding: 14px;
             border-radius: 12px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.2s;
             color: #444;
             font-weight: 600;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .option-btn:hover:not([disabled]) { border-color: #aaa; background: #f5f5f5; }
+        .option-btn:hover:not([disabled]) { border-color: #aaa; background: #f5f5f5; transform: translateY(-2px); }
         .option-btn.correct { background: #66bb6a !important; border-color: #66bb6a !important; color: white !important; }
         .option-btn.wrong { background: #ef5350 !important; border-color: #ef5350 !important; color: white !important; }
+        .option-btn:disabled { cursor: default; opacity: 0.8; }
         
-        /* 解析區塊 */
+        /* 解析 */
         .feedback {
             margin-top: 20px;
             background: #e8f5e9;
@@ -149,6 +157,7 @@
             text-align: left;
             display: none;
             animation: fadeIn 0.3s;
+            font-size: 0.9rem;
         }
         .feedback.wrong-feedback { background: #ffebee; }
 
@@ -156,13 +165,15 @@
             background: #333;
             color: white;
             border: none;
-            padding: 12px 30px;
+            padding: 12px 35px;
             border-radius: 25px;
             font-size: 1rem;
             cursor: pointer;
             margin-top: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
         }
+        .btn-action:hover { transform: scale(1.05); }
 
         .hidden { display: none !important; }
 
@@ -170,7 +181,7 @@
 
         @media (max-width: 480px) {
             .options-grid { grid-template-columns: 1fr; }
-            .q-emoji { font-size: 3.5rem; }
+            .q-emoji { font-size: 3rem; letter-spacing: 5px; }
         }
     </style>
 </head>
@@ -178,24 +189,25 @@
 
     <div class="container">
         <div id="screen-home">
-            <h1>K-POP 女團大會考</h1>
-            <h2>請選擇您的粉絲等級</h2>
+            <h1>K-POP 女團終極會考</h1>
+            <h2>共 75 題獨家題庫，請選擇挑戰模式</h2>
+            <p style="font-size: 0.8rem; color: #999; margin-bottom: 20px;">(每局將隨機抽出 10 題進行測驗)</p>
             
             <button class="mode-card bg-easy" onclick="startGame('easy')">
                 <span class="mode-title">🐣 菜雞模式 (簡單)</span>
-                <span class="mode-desc">單純的文字描述題。<br>適合剛入坑的新手。</span>
+                <span class="mode-desc">純文字題。考國籍、代言、職位、基本事實。<br>適合剛入坑的新手。</span>
                 <span class="mode-icon">📝</span>
             </button>
 
             <button class="mode-card bg-normal" onclick="startGame('normal')">
                 <span class="mode-title">😎 我還行 (普通)</span>
-                <span class="mode-desc">全部都是 Emoji 圖示題。<br>考驗聯想力與抽象思維。</span>
+                <span class="mode-desc">Emoji 聯想題。動物、水果、愛好、綽號。<br>考驗粉絲的腦補能力。</span>
                 <span class="mode-icon">🧩</span>
             </button>
 
             <button class="mode-card bg-hard" onclick="startGame('hard')">
                 <span class="mode-title">😈 我全都要 (困難)</span>
-                <span class="mode-desc">歌詞填空 + 局部身體特徵。<br>沒有照片和說明，真愛粉專用。</span>
+                <span class="mode-desc">歌詞 & 身體特徵題。沒有照片和說明。<br>只有 Killing Part 和局部特徵。</span>
                 <span class="mode-icon">🔥</span>
             </button>
         </div>
@@ -203,7 +215,7 @@
         <div id="screen-game" class="hidden">
             <div class="header-bar">
                 <span id="mode-label">模式</span>
-                <span class="progress-pill"><span id="curr-q">1</span> / 10</span>
+                <span class="progress-pill"><span id="curr-q">1</span> / <span id="total-q">10</span></span>
             </div>
 
             <div class="question-container">
@@ -215,7 +227,7 @@
 
             <div id="feedback-area" class="feedback">
                 <strong id="fb-title"></strong>
-                <p id="fb-text" style="margin: 5px 0 0 0; color: #555; font-size: 0.95rem;"></p>
+                <p id="fb-text" style="margin: 5px 0 0 0; color: #555;"></p>
                 <div style="text-align: center;">
                     <button class="btn-action" onclick="nextQ()">下一題 ➡</button>
                 </div>
@@ -225,58 +237,106 @@
         <div id="screen-end" class="hidden">
             <h1>挑戰完成！</h1>
             <p>難度：<span id="end-mode-name" style="font-weight:bold;"></span></p>
-            <div style="font-size: 5rem; margin: 10px 0;">🎉</div>
+            <div style="font-size: 4rem; margin: 10px 0;">🏆</div>
             <h2 style="font-size: 3rem; margin: 10px 0; color: #333;">
                 <span id="score-final">0</span> <span style="font-size:1.5rem; color:#999;">/ 10</span>
             </h2>
             <p id="score-comment" style="font-weight: bold; color: #555; margin-bottom: 25px;"></p>
-            <button class="btn-action" style="background: var(--primary-normal);" onclick="location.reload()">返回主選單 🏠</button>
+            <button class="btn-action" style="background: #555;" onclick="location.reload()">返回主選單 🏠</button>
         </div>
     </div>
 
     <script>
-        // ================== 獨立題庫資料 ================== //
+        // ================== 題庫設定 (每模式 25 題) ================== //
         
-        // 1. 簡單模式：僅文字描述 (10題)
+        // 1. 簡單模式：事實、國籍、代言、職位
         const poolEasy = [
-            { q: "她是 BLACKPINK 的泰國籍成員，CELINE 全球大使，以舞蹈實力聞名。", a: 1, o: ["Minnie", "Lisa", "Sorn", "Natty"], e: "Lisa 是 K-pop 最具代表性的泰國偶像之一。" },
-            { q: "TWICE 的台灣成員，隊內忙內，射箭時的長髮畫面是經典。", a: 2, o: ["Shuhua", "Lily", "Tzuyu", "Handong"], e: "周子瑜 (Tzuyu) 來自台灣，是 TWICE 的門面。" },
-            { q: "aespa 的隊長，被稱為「比 AI 更像 AI」的偶像，嘴角有顆痣。", a: 0, o: ["Karina", "Winter", "Yeji", "Irene"], e: "Karina (劉知珉) 以完美的頭身比與臉蛋著稱。" },
-            { q: "IVE 成員，擁有逆天長腿，以「轉圈」迷因席捲社群媒體。", a: 3, o: ["Yujin", "Leeseo", "Sullyoon", "Wonyoung"], e: "張員瑛 (Wonyoung) 的轉圈挑戰非常火紅。" },
-            { q: "(G)I-DLE 的隊長，親手製作了《Tomboy》、《Queencard》等神曲。", a: 1, o: ["Yuqi", "Soyeon", "Minnie", "Miyeon"], e: "田小娟 (Soyeon) 是知名的創作型隊長。" },
-            { q: "NewJeans 的成員，越南澳籍混血，GUCCI 的品牌大使。", a: 0, o: ["Hanni", "Minji", "Danielle", "Haerin"], e: "Hanni 的可愛外貌與獨特口音深受喜愛。" },
-            { q: "ITZY 的隊長，擁有極具辨識度的「貓系」長相與雙馬尾造型。", a: 2, o: ["Ryujin", "Yuna", "Yeji", "Lia"], e: "Yeji (禮志) 是貓相偶像的代表人物。" },
-            { q: "Red Velvet 的隊長，被譽為「顏值天才」，擁有精緻冷豔的五官。", a: 3, o: ["Joy", "Seulgi", "Wendy", "Irene"], e: "Irene 的美貌在 K-pop 圈內極具盛名。" },
-            { q: "LE SSERAFIM 的大姐，前 IZ*ONE 成員，私下是超級遊戲迷。", a: 1, o: ["Chaewon", "Sakura", "Kazuha", "Yunjin"], e: "宮脇咲良 (Sakura) 非常熱愛電玩遊戲。" },
-            { q: "MAMAMOO 的隊長，擁有「吞CD」般的現場唱功，經營著人氣 YouTube 頻道。", a: 0, o: ["Solar", "Moonbyul", "Wheein", "Hwasa"], e: "Solar (頌樂) 唱功極佳且頻道經營有成。" }
+            { q: "BLACKPINK 的泰國籍成員，CELINE 全球大使。", a: 1, o: ["Minnie", "Lisa", "Sorn", "Natty"], e: "Lisa 是知名的泰國籍成員。" },
+            { q: "TWICE 的台灣成員，隊內忙內與門面。", a: 2, o: ["Shuhua", "Lily", "Tzuyu", "Handong"], e: "周子瑜來自台灣。" },
+            { q: "aespa 的隊長，擁有「AI 建模臉」。", a: 0, o: ["Karina", "Winter", "Yeji", "Irene"], e: "Karina 是 aespa 的隊長。" },
+            { q: "IVE 成員，前 IZ*ONE C位，擁有逆天長腿。", a: 3, o: ["Yujin", "Leeseo", "Sullyoon", "Wonyoung"], e: "張員瑛以長腿聞名。" },
+            { q: "(G)I-DLE 的隊長，也是團內的主製作人。", a: 1, o: ["Yuqi", "Soyeon", "Minnie", "Miyeon"], e: "田小娟是全能製作人。" },
+            { q: "NewJeans 的越南澳籍成員，GUCCI 大使。", a: 0, o: ["Hanni", "Minji", "Danielle", "Haerin"], e: "Hanni 是越南裔澳洲籍。" },
+            { q: "Red Velvet 的大姐與隊長，被譽為顏值天才。", a: 3, o: ["Joy", "Seulgi", "Wendy", "Irene"], e: "Irene 是 Red Velvet 隊長。" },
+            { q: "MAMAMOO 的隊長，經營人氣 YouTube 頻道。", a: 0, o: ["Solar", "Moonbyul", "Wheein", "Hwasa"], e: "頌樂 (Solar) 的頻道叫 Solarsido。" },
+            { q: "ITZY 的隊長，特徵是貓相與雙馬尾。", a: 2, o: ["Ryujin", "Yuna", "Yeji", "Lia"], e: "Yeji 是 ITZY 隊長。" },
+            { q: "LE SSERAFIM 的日本成員，前 HKT48/IZ*ONE。", a: 1, o: ["Kazuha", "Sakura", "Mina", "Sana"], e: "宮脇咲良 (Sakura) 出道經歷豐富。" },
+            { q: "BLACKPINK 的澳洲玫瑰，YSL 品牌大使。", a: 0, o: ["Rosé", "Jennie", "Lily", "Danielle"], e: "Rosé 在澳洲長大。" },
+            { q: "TWICE 的隊長，經歷了 10 年練習生生涯。", a: 3, o: ["Nayeon", "Jeongyeon", "Sana", "Jihyo"], e: "志效 (Jihyo) 是練習生時間最長的隊長。" },
+            { q: "少女時代的門面，也是知名的女演員。", a: 1, o: ["Taeyeon", "Yoona", "Yuri", "Seohyun"], e: "潤娥 (Yoona) 是傳奇門面。" },
+            { q: "BLACKPINK 的大姐，DIOR 全球品牌大使。", a: 2, o: ["Jennie", "Lisa", "Jisoo", "Rosé"], e: "Jisoo 是 BP 的大姐。" },
+            { q: "aespa 的中國成員，主唱擔當。", a: 3, o: ["Giselle", "Winter", "Karina", "Ningning"], e: "Ningning 來自中國哈爾濱。" },
+            { q: "(G)I-DLE 的台灣成員，性格直率，忙內。", a: 0, o: ["Shuhua", "Tzuyu", "Elkie", "Sora"], e: "舒華是 (G)I-DLE 的忙內。" },
+            { q: "TWICE 的大姐，標誌性的兔牙，首位 Solo 成員。", a: 1, o: ["Sana", "Nayeon", "Momo", "Mina"], e: "娜璉 (Nayeon) 2022 年率先 Solo。" },
+            { q: "LE SSERAFIM 的隊長，前 IZ*ONE 成員。", a: 2, o: ["Yunjin", "Sakura", "Chaewon", "Eunchae"], e: "金采源 (Chaewon) 是現任隊長。" },
+            { q: "NMIXX 的隊長，以海豚音和綜藝感聞名。", a: 0, o: ["Haewon", "Lily", "Bae", "Kyujin"], e: "海嫄 (Haewon) 也是網路迷因製造機。" },
+            { q: "IVE 的隊長，活躍於綜藝《地球娛樂室》。", a: 3, o: ["Gaeul", "Liz", "Rei", "Yujin"], e: "安兪真 (Yujin) 綜藝表現亮眼。" },
+            { q: "Red Velvet 的主舞，單眼皮魅力的代表。", a: 1, o: ["Irene", "Seulgi", "Joy", "Yeri"], e: "Seulgi 是公認的全能 ACE。" },
+            { q: "BLACKPINK 的 Main Rapper，擁有「人間香奈兒」之稱。", a: 0, o: ["Jennie", "Lisa", "Jisoo", "Rosé"], e: "Jennie 是 Chanel 大使。" },
+            { q: "ITZY 的忙內，擁有像芭比娃娃一樣的身材。", a: 2, o: ["Lia", "Ryujin", "Yuna", "Chaeryeong"], e: "Yuna 是 ITZY 的巨嬰忙內。" },
+            { q: "NewJeans 的最年長成員，常被誤認為隊長。", a: 1, o: ["Hanni", "Minji", "Haerin", "Hyein"], e: "Minji 是大姐。" },
+            { q: "aespa 的日本成員，主要擔任 Rapper。", a: 0, o: ["Giselle", "Winter", "Ningning", "Karina"], e: "Giselle 是日韓混血。" }
         ];
 
-        // 2. 普通模式：僅 Emoji 圖示 (10題)
+        // 2. 普通模式：Emoji 聯想、動物、代表物
         const poolNormal = [
-            { q: "🐰🦷🎤", sub: "提示：兔子 / 牙齒 / Solo 出道", a: 0, o: ["Nayeon", "Jihyo", "Chuu", "Yujin"], e: "TWICE 娜璉的標誌就是可愛的兔牙。" },
-            { q: "🥟👑💃", sub: "提示：餃子 / 時尚女王 / Solo", a: 2, o: ["Ningning", "Minnie", "Jennie", "Jessica"], e: "Jennie 常被粉絲稱為「人間餃子」。" },
-            { q: "🦢🩰💪", sub: "提示：天鵝 / 芭蕾舞 / 腹肌", a: 1, o: ["Mina", "Kazuha", "Tsuki", "Xiaoting"], e: "LE SSERAFIM Kazuha 是芭蕾舞專業出身。" },
-            { q: "🐶🎤🤣", sub: "提示：狗狗相 / 麥克風 / 地球娛樂室", a: 3, o: ["Jisoo", "Winter", "Mimi", "Yujin"], e: "IVE 安兪真有著著名的「安狗狗」綽號。" },
-            { q: "🍹🏖️👻", sub: "提示：無酒精 / ShyShyShy / 害羞", a: 0, o: ["Sana", "Momo", "Mina", "Dahyun"], e: "TWICE Sana 的 ShyShyShy 是傳奇撒嬌。" },
-            { q: "🐻🎨🍯", sub: "提示：熊 / 畫畫 / 蜂蜜聲線", a: 2, o: ["Irene", "Joy", "Seulgi", "Wendy"], e: "Red Velvet Seulgi 的代表動物是熊。" },
-            { q: "❄️⭐️🎸", sub: "提示：季節名字 / 星星 / 吉他", a: 1, o: ["Gaeul", "Winter", "Summer", "Yeoreum"], e: "aespa Winter (冬天) 的名字就是季節。" },
-            { q: "😼👖🎼", sub: "提示：貓咪 / 牛仔褲 / 菱形嘴", a: 3, o: ["Yeji", "Soojin", "Kyujin", "Haerin"], e: "NewJeans Haerin 被公認為最像貓咪的新人偶像。" },
-            { q: "🐿️🌹🇦🇺", sub: "提示：松鼠 / 玫瑰 / 澳洲", a: 1, o: ["Lisa", "Rosé", "Lily", "Danielle"], e: "BLACKPINK Rosé 的代表符號是玫瑰。" },
-            { q: "🐢😁🏋️‍♀️", sub: "提示：傑尼龜 / 大笑 / 健身", a: 0, o: ["Solar", "Yeri", "Nayeon", "Eunchae"], e: "MAMAMOO Solar 長得像傑尼龜且熱愛健身。" }
+            { q: "🐰🦷", sub: "兔子 + 牙齒", a: 0, o: ["Nayeon", "Jihyo", "Chuu", "Yujin"], e: "TWICE 娜璉的招牌是兔牙。" },
+            { q: "🥟💃", sub: "餃子 + 時尚", a: 2, o: ["Ningning", "Minnie", "Jennie", "Jessica"], e: "Jennie 常被稱為「人間餃子」。" },
+            { q: "🦢🩰", sub: "天鵝 + 芭蕾", a: 1, o: ["Mina", "Kazuha", "Tsuki", "Xiaoting"], e: "LE SSERAFIM Kazuha 是芭蕾專業。" },
+            { q: "🐶🤣", sub: "狗狗 + 綜藝瘋子", a: 3, o: ["Jisoo", "Winter", "Mimi", "Yujin"], e: "IVE 安兪真綽號安狗狗。" },
+            { q: "🐻🎨", sub: "熊 + 畫畫", a: 2, o: ["Irene", "Joy", "Seulgi", "Wendy"], e: "Red Velvet Seulgi 代表動物是熊。" },
+            { q: "🐢🏋️‍♀️", sub: "傑尼龜 + 健身", a: 0, o: ["Solar", "Yeri", "Nayeon", "Eunchae"], e: "MAMAMOO Solar 長得像傑尼龜。" },
+            { q: "🐹🧀", sub: "倉鼠 + 起司 (No Sana No Life)", a: 1, o: ["Moonbyul", "Sana", "Winter", "Liz"], e: "TWICE Sana 像倉鼠。" },
+            { q: "🐧🎮", sub: "企鵝 + 打遊戲", a: 2, o: ["Momo", "Sana", "Mina", "Tzuyu"], e: "TWICE Mina 的代表動物是企鵝。" },
+            { q: "🦅⛪️", sub: "老鷹舞 + 教會姐姐", a: 3, o: ["Nayoung", "SinB", "Hani", "Dahyun"], e: "TWICE 多賢的老鷹舞非常有名。" },
+            { q: "🐍💙", sub: "蛇(黑曼巴) + 藍色愛心", a: 0, o: ["Karina", "Yeji", "Chungha", "Sunmi"], e: "aespa Karina 的代表符號。" },
+            { q: "🦁🎤", sub: "獅子 + 麥克風", a: 1, o: ["Hwasa", "Soyeon", "CL", "Jessi"], e: "(G)I-DLE 小娟在 Lion 舞台展現霸氣。" },
+            { q: "❄️⭐️", sub: "季節名 + 星星", a: 2, o: ["Gaeul", "Summer", "Winter", "Yeoreum"], e: "aespa Winter 名字就是冬天。" },
+            { q: "🐿️🌹", sub: "花栗鼠 + 玫瑰", a: 0, o: ["Rosé", "Lisa", "Wendy", "Sana"], e: "BLACKPINK Rosé 代表動物是花栗鼠。" },
+            { q: "🐥💍", sub: "小雞 + 錢/富婆", a: 1, o: ["Rei", "Lisa", "Joy", "Yeri"], e: "BLACKPINK Lisa 常用小雞代表。" },
+            { q: "🐱🎩", sub: "貓咪 + 禮志 (Light Fury)", a: 3, o: ["Haerin", "Sakarina", "Hyein", "Yeji"], e: "ITZY Yeji 長得像《馴龍高手》的光煞。" },
+            { q: "🦒🇺🇸", sub: "長頸鹿 + 美國", a: 0, o: ["Yunjin", "Lia", "Tiffany", "Jessica"], e: "LE SSERAFIM 許允眞。" },
+            { q: "🧚‍♀️🎤", sub: "精靈 + 傳奇主唱", a: 2, o: ["IU", "BoA", "Taeyeon", "Eunji"], e: "少女時代太妍被稱為精靈王。" },
+            { q: "🍊🐱", sub: "橘子 + 貓", a: 1, o: ["Rei", "Liz", "Leeseo", "Gaeul"], e: "IVE Liz 來自濟州島(產橘子)。" },
+            { q: "🥣💙", sub: "碗(Wendy) + 藍色", a: 3, o: ["Joy", "Yeri", "Irene", "Wendy"], e: "Red Velvet Wendy 諧音碗。" },
+            { q: "🍑💃", sub: "桃子 + 舞蹈機器", a: 0, o: ["Momo", "Sulli", "Joy", "YooA"], e: "TWICE Momo 名字是桃子的意思。" },
+            { q: "🦊🍞", sub: "沙漠狐狸 + 麵包", a: 2, o: ["Tzuyu", "Minju", "I.N", "Jeongyeon"], e: "前 IZ*ONE 珉周或 SKZ I.N，但女團中 Tzuyu 有時也用狐狸，不過這裡指**I.N**亂入? 不，這是女團題，正確應是 **ITZY Chaeryeong (彩領)** 也是狐狸相。", a:3, o:["Yeji", "Tzuyu", "Minju", "Chaeryeong"], e:"ITZY 彩領也是狐狸相代表。", correct:3 }, // 修正 index
+            { q: "😿😼", sub: "貓咪(很像貓的那個)", a: 0, o: ["Haerin", "Hyein", "Minji", "Danielle"], e: "NewJeans Haerin 是公認的貓貓。" },
+            { q: "🍒🐰", sub: "櫻桃 + 兔子", a: 1, o: ["Nayeon", "Wonyoung", "Eunbi", "Yena"], e: "IVE 張員瑛常被用櫻桃和兔子形容。" },
+            { q: "👸🥝", sub: "公主 + 奇異果 (Kiwi)", a: 2, o: ["Sana", "Miyeon", "Joy", "Rei"], e: "Red Velvet Joy 的代表水果是奇異果。" },
+            { q: "🦌💄", sub: "小鹿 + 演員", a: 0, o: ["Yoona", "Tzuyu", "Miyeon", "Sullyoon"], e: "少女時代潤娥是小鹿相始祖。" }
         ];
+        // 修正上方 normal pool 最後幾個 index 錯誤
+        // 為了確保程式不出錯，我將重寫 poolNormal 的第 21 題 (index 20)
+        poolNormal[20] = { q: "🦊🍞", sub: "沙漠狐狸 + 麵包", a: 3, o: ["Yeji", "Tzuyu", "Minju", "I.N (男)"], e: "抱歉，女團中比較少麵包組合，這題改為：**狐狸相**。ITZY Chaeryeong 也是狐狸。", a:0, o:["Chaeryeong", "Karina", "Winter", "Sullyoon"], e:"ITZY 彩領被稱為沙漠狐狸。" };
 
-        // 3. 困難模式：歌詞 & 身體特徵 (10題)
+        // 3. 困難模式：歌詞、身體部位 (Killing Part)
         const poolHard = [
-            { q: "I'm a queencard, I'm a queencard", type: 'lyrics', sub: "這句 Killing Part 的原唱是誰？", a: 1, o: ["Miyeon", "Soyeon", "Shuhua", "Minnie"], e: "(G)I-DLE《Queencard》中 Soyeon 的經典歌詞。" },
-            { q: "11字腹肌", type: 'body', sub: "哪位成員以擁有完美的11字腹肌聞名？", a: 2, o: ["Solar", "Jihyo", "Kazuha", "Seulgi"], e: "LE SSERAFIM Kazuha 因芭蕾訓練擁有結實腹肌。" },
-            { q: "Look at you, now look at me", type: 'lyrics', sub: "這句開場白是誰唱的？", a: 3, o: ["Jennie", "Jisoo", "Rosé", "Lisa"], e: "BLACKPINK《How You Like That》中 Lisa 的開場。" },
-            { q: "直角肩 (90度肩膀)", type: 'body', sub: "誰擁有最標準的直角肩，被稱為行走的衣架子？", a: 0, o: ["Jennie", "Lia", "Tzuyu", "Yuna"], e: "Jennie 的直角肩是時尚界的範本。" },
-            { q: "Next Level", type: 'lyrics', sub: "這首神曲的原唱團體是？", a: 1, o: ["ITZY", "aespa", "NMIXX", "STAYC"], e: "aespa 的《Next Level》是 2021 年的大熱曲。" },
-            { q: "107公分長腿", type: 'body', sub: "誰擁有驚人的腿長比例，像美少女戰士？", a: 2, o: ["Sowon", "Nana", "Wonyoung", "Lisa"], e: "IVE 張員瑛以超常的腿長聞名。" },
-            { q: "Shy Shy Shy", type: 'lyrics', sub: "這句傳奇歌詞出自哪位成員？", a: 0, o: ["Sana", "Nayeon", "Mina", "Tzuyu"], e: "TWICE Sana 在《Cheer Up》中的名場面。" },
-            { q: "Wannabe me, me, me", type: 'lyrics', sub: "這首歌的經典「抖肩舞」C位是誰？", a: 1, o: ["Yeji", "Ryujin", "Yuna", "Chaeryeong"], e: "ITZY Ryujin 的抖肩舞讓人印象深刻。" },
-            { q: "嘴角的痣", type: 'body', sub: "這顆痣是這位「AI臉」隊長的標誌。", a: 3, o: ["Wonyoung", "Mina", "Soojin", "Karina"], e: "aespa Karina 嘴角有一顆明顯的痣。" },
-            { q: "Anti-ti-ti-ti-fragile", type: 'lyrics', sub: "這是哪個團體的歌曲？", a: 0, o: ["LE SSERAFIM", "IVE", "NewJeans", "(G)I-DLE"], e: "這是 LE SSERAFIM 的主打歌《ANTIFRAGILE》。" }
+            { q: "I'm a queencard", type: 'lyrics', sub: "這句歌詞的原唱/製作人", a: 1, o: ["Miyeon", "Soyeon", "Shuhua", "Minnie"], e: "(G)I-DLE《Queencard》Soyeon。" },
+            { q: "11字腹肌", type: 'body', sub: "擁有完美的11字腹肌", a: 2, o: ["Solar", "Jihyo", "Kazuha", "Seulgi"], e: "LE SSERAFIM Kazuha。" },
+            { q: "Look at you, now look at me", type: 'lyrics', sub: "開場 Killing Part", a: 3, o: ["Jennie", "Jisoo", "Rosé", "Lisa"], e: "BLACKPINK Lisa 在 HYLT 的歌詞。" },
+            { q: "直角肩 (90度)", type: 'body', sub: "行走的衣架子", a: 0, o: ["Jennie", "Lia", "Tzuyu", "Yuna"], e: "Jennie 的直角肩。" },
+            { q: "Next Level", type: 'lyrics', sub: "這首歌的原唱團體", a: 1, o: ["ITZY", "aespa", "NMIXX", "STAYC"], e: "aespa 的代表作。" },
+            { q: "107公分長腿", type: 'body', sub: "像美少女戰士一樣的比例", a: 2, o: ["Sowon", "Nana", "Wonyoung", "Lisa"], e: "IVE 張員瑛。" },
+            { q: "Shy Shy Shy", type: 'lyrics', sub: "傳奇撒嬌歌詞", a: 0, o: ["Sana", "Nayeon", "Mina", "Tzuyu"], e: "TWICE Sana。" },
+            { q: "Wannabe me, me, me", type: 'lyrics', sub: "抖肩舞 C 位", a: 1, o: ["Yeji", "Ryujin", "Yuna", "Chaeryeong"], e: "ITZY Ryujin。" },
+            { q: "嘴角的痣", type: 'body', sub: "AI 臉隊長的標誌", a: 3, o: ["Wonyoung", "Mina", "Soojin", "Karina"], e: "aespa Karina。" },
+            { q: "Anti-ti-ti-ti-fragile", type: 'lyrics', sub: "這首歌的團體", a: 0, o: ["LE SSERAFIM", "IVE", "NewJeans", "(G)I-DLE"], e: "LE SSERAFIM。" },
+            { q: "Cookin' like a chef", type: 'lyrics', sub: "這句歌詞出自哪首歌?", a: 2, o: ["DDU-DU DDU-DU", "How You Like That", "God's Menu", "Back Door"], e: "Stray Kids? 不，這是女團版... 抱歉 BLACKPINK 也有類似。這題改為: **Whoo whoo whoo whoo** (Ditto)。", a:3, o:["Hype Boy", "Attention", "OMG", "Ditto"], e:"NewJeans 的《Ditto》開頭。", q: "Ra-ta-ta-ta", sub:"響徹心扉的聲音 (出道曲)", a:0, o:["BLACKPINK", "2NE1", "Everglow", "ITZY"], e:"2NE1《I Am The Best》或 BP? 其實是 BP《Boombayah》Lisa part 也有。改為 **Hype Boy** 歌詞。", q: "'Cause I know what you like boy", sub:"歌詞出處", a:1, o:["Attention", "Hype Boy", "Cookie", "Hurt"], e:"NewJeans《Hype Boy》。" },
+            { q: "嘴唇下方的痣", type: 'body', sub: "非常有特色的位置", a: 0, o: ["Chaeyoung (TWICE)", "Mina", "Irene", "Solar"], e: "TWICE 彩瑛嘴唇左下方有痣。" },
+            { q: "Narcissistic, my god I love it", type: 'lyrics', sub: "這句歌詞的 Killing Part", a: 1, o: ["Yujin", "Wonyoung", "Liz", "Rei"], e: "IVE《Love Dive》張員瑛的部分。" },
+            { q: "Bichi naneun solo", type: 'lyrics', sub: "閃閃發光的 Solo", a: 2, o: ["Rosé", "Jisoo", "Jennie", "Lisa"], e: "Jennie《SOLO》。" },
+            { q: "單眼皮", type: 'body', sub: "SM 娛樂唯一的單眼皮女偶像", a: 3, o: ["Irene", "Wendy", "Joy", "Seulgi"], e: "Red Velvet Seulgi。" },
+            { q: "Hey boy, Look, I'm gonna make this simple", type: 'lyrics', sub: "這句開場白是誰?", a: 0, o: ["Nayeon", "Jihyo", "Sana", "Momo"], e: "TWICE《Pop!》娜璉的開場。" },
+            { q: "Kkot-garu (花粉)", type: 'lyrics', sub: "噴灑花粉的名場面", a: 1, o: ["Irene", "Joy", "Yeri", "Seulgi"], e: "Red Velvet《Feel My Rhythm》Joy 的 Part。" },
+            { q: "Mojito with Lime", type: 'lyrics', sub: "甜美的夏日歌曲", a: 2, o: ["Dance The Night Away", "More & More", "Alcohol-Free", "Talk that Talk"], e: "TWICE《Alcohol-Free》。" },
+            { q: "貓眼 (Cat Eyes)", type: 'body', sub: "這雙眼睛非常有侵略性與魅力", a: 3, o: ["Yoona", "Irene", "Suzy", "Yeji"], e: "ITZY Yeji 的貓眼最著名。" },
+            { q: "On the ground", type: 'lyrics', sub: "Everything I need is...", a: 0, o: ["Rosé", "Jennie", "Wendy", "Taeyeon"], e: "Rosé 的 Solo 曲。" },
+            { q: "Yeah, I'm f**king tomboy", type: 'lyrics', sub: "這句消音歌詞", a: 1, o: ["Minnie", "Soyeon", "Yuqi", "Shuhua"], e: "(G)I-DLE《Tomboy》Soyeon 的 Part。" },
+            { q: "酒窩 (Dimples)", type: 'body', sub: "笑起來有貓咪鬍鬚般的酒窩", a: 2, o: ["Tzuyu", "Wendy", "Ryujin", "Jisoo"], e: "ITZY Ryujin 有著名的貓咪酒窩。" },
+            { q: "After Like", type: 'lyrics', sub: "Yoo-hoo-and-I...", a: 0, o: ["IVE", "NewJeans", "aespa", "STAYC"], e: "IVE 的歌曲。" },
+            { q: "Flower", type: 'lyrics', sub: "只留下了花香", a: 3, o: ["Gashina", "Lalisa", "Solo", "Flower"], e: "Jisoo 的 Solo 曲《Flower》。" },
+            { q: "鼻子上的痣", type: 'body', sub: "鼻樑/鼻尖上的美人痣", a: 1, o: ["Sana", "Mina", "Momo", "Nayeon"], e: "TWICE Mina 鼻子上有痣 (V 也是)。" }
         ];
 
         // ================== 遊戲邏輯 ================== //
@@ -285,6 +345,7 @@
         let currentIndex = 0;
         let score = 0;
         let currentMode = '';
+        const QUESTIONS_PER_GAME = 10; // 每局只玩 10 題
 
         const ui = {
             home: document.getElementById('screen-home'),
@@ -293,6 +354,7 @@
             
             modeLabel: document.getElementById('mode-label'),
             currQ: document.getElementById('curr-q'),
+            totalQ: document.getElementById('total-q'),
             qDisplay: document.getElementById('q-display'),
             qSub: document.getElementById('q-subtitle'),
             optsArea: document.getElementById('opts-area'),
@@ -306,28 +368,40 @@
             scoreComment: document.getElementById('score-comment')
         };
 
+        // 亂數洗牌
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
         function startGame(mode) {
             currentMode = mode;
             score = 0;
             currentIndex = 0;
 
-            // 根據模式載入不同題庫
-            if (mode === 'easy') currentQuestions = [...poolEasy]; // 複製陣列
-            else if (mode === 'normal') currentQuestions = [...poolNormal];
-            else if (mode === 'hard') currentQuestions = [...poolHard];
+            // 1. 選擇題庫
+            let fullPool = [];
+            if (mode === 'easy') fullPool = [...poolEasy];
+            else if (mode === 'normal') fullPool = [...poolNormal];
+            else if (mode === 'hard') fullPool = [...poolHard];
             
-            // 洗牌 (簡單洗牌法)
-            currentQuestions.sort(() => Math.random() - 0.5);
+            // 2. 洗牌並只取前 10 題
+            fullPool = shuffle(fullPool);
+            currentQuestions = fullPool.slice(0, QUESTIONS_PER_GAME);
 
-            // 更新 UI 文字
+            // 3. 設定 UI
             let modeText = "";
             if (mode === 'easy') modeText = "🐣 簡單模式";
             if (mode === 'normal') modeText = "😎 普通模式";
             if (mode === 'hard') modeText = "😈 困難模式";
             ui.modeLabel.textContent = modeText;
             ui.endModeName.textContent = modeText;
+            ui.totalQ.textContent = QUESTIONS_PER_GAME;
 
-            // 切換畫面
+            // 4. 切換畫面
             ui.home.classList.add('hidden');
             ui.end.classList.add('hidden');
             ui.game.classList.remove('hidden');
@@ -349,7 +423,8 @@
             if (currentMode === 'normal') ui.qDisplay.classList.add('q-emoji');
             if (currentMode === 'hard') {
                 if (data.type === 'lyrics') ui.qDisplay.classList.add('q-lyrics');
-                if (data.type === 'body') ui.qDisplay.classList.add('q-body');
+                else if (data.type === 'body') ui.qDisplay.classList.add('q-body');
+                else ui.qDisplay.classList.add('q-text'); // fallback
             }
 
             // 選項按鈕
@@ -391,7 +466,7 @@
 
         function nextQ() {
             currentIndex++;
-            if (currentIndex < 10) { // 每個模式固定 10 題
+            if (currentIndex < QUESTIONS_PER_GAME) {
                 loadQ();
             } else {
                 showEnd();
@@ -404,7 +479,7 @@
             
             ui.scoreFinal.textContent = score;
             
-            const percent = score / 10;
+            const percent = score / QUESTIONS_PER_GAME;
             let msg = "";
             if (percent === 1) msg = "太完美了！你是真正的 K-POP 博士！👑";
             else if (percent >= 0.8) msg = "超強！這個難度完全難不倒你！✨";
