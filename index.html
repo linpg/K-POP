@@ -1,0 +1,447 @@
+利8-客服5＃, [2025/11/22 下午 02:55]
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-POP 女團偶像猜謎挑戰 (20題版)</title>
+    <style>
+        /* CSS 樣式區 - 保持不變，優化了閱讀體驗 */
+        :root {
+            --primary-color: #ff80ab; /* 亮粉色 */
+            --secondary-color: #ea80fc; /* 亮紫色 */
+            --bg-color: #fce4ec; /* 淺粉背景 */
+            --card-bg: #ffffff;
+            --text-color: #4a4a4a;
+            --correct-color: #4caf50;
+            --wrong-color: #f44336;
+        }
+
+        body {
+            font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
+            background: linear-gradient(135deg, var(--bg-color) 0%, #e1bee7 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .container {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 500px; /* 固定高度避免跳動 */
+            justify-content: center;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            background: var(--secondary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 20px;
+            align-self: center;
+        }
+
+        .question-box {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-weight: bold;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid var(--primary-color);
+            color: var(--text-color);
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        .option-btn.correct {
+            background: var(--correct-color) !important;
+            border-color: var(--correct-color) !important;
+            color: white !important;
+        }
+
+        .option-btn.wrong {
+            background: var(--wrong-color) !important;
+            border-color: var(--wrong-color) !important;
+            color: white !important;
+        }
+
+        .feedback-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            display: none; 
+            text-align: left;
+            animation: fadeIn 0.5s;
+            font-size: 0.95rem;
+        }
+
+        .feedback-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+利8-客服5＃, [2025/11/22 下午 02:55]
+.next-btn, .restart-btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        
+        .start-btn {
+             background: var(--primary-color);
+             color: white;
+             border: none;
+             padding: 15px 40px;
+             border-radius: 30px;
+             font-size: 1.3rem;
+             cursor: pointer;
+             box-shadow: 0 5px 15px rgba(255, 128, 171, 0.4);
+             transition: transform 0.2s;
+        }
+        
+        .start-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            .question-box {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="start-screen">
+            <h1>🎤 K-POP 女團猜謎</h1>
+            <p>從二代到五代女團大集合！<br>一共 20 題，看你能對幾題？</p>
+            <div style="font-size: 60px; margin: 20px 0;">💃👑</div>
+            <button class="start-btn" onclick="startQuiz()">開始挑戰</button>
+        </div>
+
+        <div id="game-screen" class="hidden">
+            <div class="badge">Question <span id="q-current">1</span> / <span id="q-total">20</span></div>
+            <div class="question-box" id="question-text">
+                題目載入中...
+            </div>
+            
+            <div class="options-grid" id="options-container">
+                </div>
+
+            <div class="feedback-section" id="feedback">
+                <span class="feedback-title" id="feedback-title"></span>
+                <p id="feedback-detail"></p>
+                <div style="text-align: center;">
+                    <button class="next-btn" onclick="nextQuestion()">下一題 ➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="end-screen" class="hidden">
+            <h1>🎉 挑戰完成！</h1>
+            <p style="font-size: 1.2rem;">你的得分：</p>
+            <h2 style="font-size: 3rem; color: var(--primary-color); margin: 10px 0;">
+                <span id="final-score">0</span> / <span id="total-score">20</span>
+            </h2>
+            <p id="result-comment" style="font-weight: bold; margin-bottom: 20px;"></p>
+            <button class="restart-btn" onclick="restartQuiz()">再玩一次 🔄</button>
+        </div>
+    </div>
+
+利8-客服5＃, [2025/11/22 下午 02:55]
+<script>
+        // 20 題 K-pop 女團題庫
+        const quizData = [
+            {
+                question: "這位偶像來自泰國，以超群的舞蹈實力著稱。曾擔任《青春有你》導師，是 CELINE 的全球品牌大使。",
+                options: ["Minnie ((G)I-DLE)", "Lisa (BLACKPINK)", "Natty (KISS OF LIFE)", "Sorn (前CLC)"],
+                correct: 1,
+                explanation: "✅ Lisa 是 BLACKPINK 的舞蹈擔當，也是知名的泰國籍成員。"
+            },
+            {
+                question: "她是隊內的「大姐」，卻常被認為是忙內。擁有「人間四月天」的美稱，並且是 DIOR 的全球品牌大使。",
+                options: ["Irene (Red Velvet)", "Jisoo (BLACKPINK)", "Nayeon (TWICE)", "Sakura (LE SSERAFIM)"],
+                correct: 1,
+                explanation: "✅ Jisoo 擁有清秀的演員臉，是 BLACKPINK 的門面與大姐。"
+            },
+            {
+                question: "這位偶像擁有極具辨識度的「AI建模臉」，是所屬團體的隊長，嘴角有一顆標誌性的痣。",
+                options: ["Yeji (ITZY)", "Karina (aespa)", "Wonyoung (IVE)", "Haerin (NewJeans)"],
+                correct: 1,
+                explanation: "✅ Karina (aespa) 因其完美的臉蛋比例被稱為「人間AI」。"
+            },
+            {
+                question: "她是來自台灣的成員，隊內的「門面」擔當與忙內。射箭時長髮飄逸的畫面曾引發全球熱議。",
+                options: ["Shuhua ((G)I-DLE)", "Tzuyu (TWICE)", "Lily (NMIXX)", "Ningning (aespa)"],
+                correct: 1,
+                explanation: "✅ Tzuyu (周子瑜) 是 TWICE 的台灣成員，射箭動圖是經典名場面。"
+            },
+            {
+                question: "她曾是 IZ*ONE 的中心(C位)，現任 IVE 成員。以極致的身材比例和「轉圈」迷因(Meme)席捲社群。",
+                options: ["Yujin (IVE)", "Chaewon (LE SSERAFIM)", "Somi (Solo)", "Wonyoung (IVE)"],
+                correct: 3,
+                explanation: "✅ Wonyoung (張員瑛) 以超長美腿和舞台上的「員瑛轉圈」爆紅。"
+            },
+            {
+                question: "她擁有「人間香奈兒」的稱號，是團體中第一位 Solo 出道的成員，發行過單曲《SOLO》。",
+                options: ["Jennie (BLACKPINK)", "Joy (Red Velvet)", "Krystal (f(x))", "Mina (TWICE)"],
+                correct: 0,
+                explanation: "✅ Jennie 因獨特的時尚氣質被稱為 Human Chanel，其 Solo 曲《SOLO》紅遍全球。"
+            },
+            {
+                question: "這名成員來自越南與澳洲背景，是 NewJeans 的成員，並擔任 GUCCI 的品牌大使。",
+                options: ["Danielle", "Minji", "Hanni", "Hyein"],
+                correct: 2,
+                explanation: "✅ Hanni 是 NewJeans 的越南裔澳洲籍成員，可愛的外型與獨特音色深受喜愛。"
+            },
+            {
+                question: "她是 TWICE 的大姐與主唱，擁有標誌性的「兔牙」，並以《POP!》一曲成功 Solo 出道。",
+                options: ["Jihyo", "Nayeon", "Sana", "Dahyun"],
+                correct: 1,
+                explanation: "✅ Nayeon (娜璉) 標誌性的兔牙與果汁美貌是她的特徵，《POP!》的手部舞蹈非常流行。"
+            },
+            {
+                question: "這位偶像以獨特的「玫瑰蜜嗓」聞名，是 YSL 的品牌大使，近期與 Bruno Mars 合作神曲《APT.》。",
+                options: ["Rosé (BLACKPINK)", "Wendy (Red Velvet)", "Taeyeon (SNSD)", "IU"],
+                correct: 0,
+                explanation: "✅ Rosé 擁有辨識度極高的嗓音，近期《APT.》一曲更是席捲全球榜單。"
+            },
+            {
+                question: "她是 (G)I-DLE 的隊長兼製作人，親手打造了《Tomboy》、《Queencard》等熱門歌曲，被稱為天才作曲家。",
+                options: ["Minnie", "Miyeon", "Yuqi", "Soyeon"],
+                correct: 3,
+                explanation: "✅ Soyeon (田小娟) 是 K-pop 女團中少見的全能製作人隊長。"
+            },
+            {
+                question: "來自日本的大阪，TWICE 的成員。經典歌詞「Shy Shy Shy」的原唱者，以可愛性感風著稱。",
+                options: ["Momo", "Mina", "Sana", "Kazuha"],
+                correct: 2,
+                explanation: "✅ Sana 在《Cheer Up》時期的「Shy Shy Shy」成為當年最紅的流行語。"
+            },
+            {
+                question: "她是 ITZY 的中心(Center)與主舞，以《Wannabe》中的「抖肩舞」一戰成名，擁有帥氣的 Girl Crush 魅力。",
+                options: ["Yeji", "Ryujin", "Yuna", "Chaeryeong"],
+                correct: 1,
+                explanation: "✅ Ryujin (留真) 的抖肩舞開頭是 ITZY 最具代表性的舞台亮點之一。"
+            },
+            {
+                question: "她是 NMIXX 的隊長，以強大的歌唱實力和幽默感著稱，常在直播中創造各種迷因，被稱為「搞笑藝人」。",
+                options: ["Sullyoon", "Haewon", "Kyujin", "Bae"],
+                correct: 1,
+                explanation: "✅ Haewon (海嫄) 以毫無偶像包袱的幽默感和超強實力，成為綜藝節目的新寵兒。"
+            },
+            {
+                question: "她經歷了 HKT48、IZ*ONE 到 LE SSERAFIM 三次出道。是知名的遊戲宅女，擁有標誌性的大眼睛。",
+                options: ["Kazuha", "Eunchae", "Sakura", "Yunjin"],
+                correct: 2,
+
+利8-客服5＃, [2025/11/22 下午 02:55]
+explanation: "✅ Sakura (宮脇咲良) 出道經歷豐富，且私下是非常熱愛電玩的「櫻花」及「小庫拉」。"
+            },
+            {
+                question: "少女時代的隊長與主唱，擁有「信聽太」的美譽，是 K-pop 最具代表性的 Solo 女歌手之一。",
+                options: ["Yoona", "Tiffany", "Taeyeon", "Seohyun"],
+                correct: 2,
+                explanation: "✅ Taeyeon (太妍) 被稱為「因信任而聽的太妍」，歌唱實力在圈內備受推崇。"
+            },
+            {
+                question: "aespa 的成員，擁有獨特的金屬質感嗓音。常以短髮造型示人，被粉絲暱稱為「冬冬」。",
+                options: ["Giselle", "Winter", "Ningning", "Karina"],
+                correct: 1,
+                explanation: "✅ Winter (金旼炡) 的藝名意指冬天，其清亮的高音是 aespa 歌曲的核心。"
+            },
+            {
+                question: "IVE 的隊長，曾也是 IZ*ONE 的成員。在綜藝《Biong Biong 地球娛樂室》中展現了驚人的綜藝感與瘋狂魅力。",
+                options: ["Gaeul", "Liz", "Leeseo", "Yujin"],
+                correct: 3,
+                explanation: "✅ Yujin (安兪真) 在羅PD的節目中展現了與舞台上截然不同的「瘋子」魅力，人氣飆升。"
+            },
+            {
+                question: "MAMAMOO 的隊長與主唱，以極具爆發力的「吞CD」唱功著稱，經營著人氣 YouTube 頻道《Solarsido》。",
+                options: ["Moonbyul", "Hwasa", "Wheein", "Solar"],
+                correct: 3,
+                explanation: "✅ Solar (頌樂) 唱功極佳，且個人頻道經營得非常成功。"
+            },
+            {
+                question: "TWICE 的舞蹈機器(Dancing Machine)，來自日本。非常熱愛豬腳(Jokbal)，舞蹈實力被專家公認頂尖。",
+                options: ["Momo", "Sana", "Mina", "Tsuki"],
+                correct: 0,
+                explanation: "✅ Momo 是公認的三代女團頂級舞者，且在綜藝上多次表達對豬腳的熱愛。"
+            },
+            {
+                question: "Red Velvet 的隊長與門面擔當，被稱為「原本就是美貌(Original Visual)」，擁有精緻冷豔的五官。",
+                options: ["Seulgi", "Yeri", "Joy", "Irene"],
+                correct: 3,
+                explanation: "✅ Irene 的顏值在 K-pop 圈內被視為傳奇等級，是標準的冷豔美女代表。"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const startScreen = document.getElementById('start-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const endScreen = document.getElementById('end-screen');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackSection = document.getElementById('feedback');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackDetail = document.getElementById('feedback-detail');
+        const qCurrent = document.getElementById('q-current');
+        const qTotal = document.getElementById('q-total');
+
+        function startQuiz() {
+            score = 0;
+            currentQuestionIndex = 0;
+            startScreen.classList.add('hidden');
+            endScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            qTotal.textContent = quizData.length;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const currentData = quizData[currentQuestionIndex];
+            qCurrent.textContent = currentQuestionIndex + 1;
+            questionText.textContent = currentData.question;
+            
+            optionsContainer.innerHTML = '';
+            feedbackSection.style.display = 'none';
+
+            currentData.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex, selectedBtn) {
+            const currentData = quizData[currentQuestionIndex];
+            const allBtns = document.querySelectorAll('.option-btn');
+            
+            allBtns.forEach(btn => btn.disabled = true);
+
+利8-客服5＃, [2025/11/22 下午 02:55]
+if (selectedIndex === currentData.correct) {
+                score++;
+                selectedBtn.classList.add('correct');
+                feedbackTitle.innerHTML = '<span style="color:green">🎉 答對了！</span>';
+            } else {
+                selectedBtn.classList.add('wrong');
+                allBtns[currentData.correct].classList.add('correct');
+                feedbackTitle.innerHTML = '<span style="color:red">😅 答錯囉！</span>';
+            }
+
+            feedbackDetail.innerHTML = currentData.explanation;
+            feedbackSection.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            gameScreen.classList.add('hidden');
+            endScreen.classList.remove('hidden');
+            
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('total-score').textContent = quizData.length;
+
+            const comment = document.getElementById('result-comment');
+            const percentage = (score / quizData.length) * 100;
+
+            if (percentage === 100) {
+                comment.innerHTML = "太神了！👑<br>你是行走的 K-pop 百科全書！";
+            } else if (percentage >= 80) {
+                comment.innerHTML = "超強！🌟<br>絕對是資深的 K-pop 粉絲！";
+            } else if (percentage >= 60) {
+                comment.innerHTML = "不錯喔！🎵<br>大部分的熱門團體都難不倒你！";
+            } else {
+                comment.innerHTML = "再接再厲！💪<br>多看幾個 MV 就能拿高分了！";
+            }
+        }
+
+        function restartQuiz() {
+            startQuiz();
+        }
+    </script>
+</body>
+</html>
